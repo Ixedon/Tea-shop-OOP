@@ -29,7 +29,8 @@ public:
 			else if(base == "exit" && parameter == "")exit=1;
 			else if(base == "cd" && tui->mapa_nazw.find(parameter) != tui->mapa_nazw.end() ) 
 				tui->current = tui->mapa_nazw[parameter];
-			else if(base == "mo" && parameter!="")tui->mo(parameter);
+			else if(base == "mo" && parameter!=""&& tui->current->czyLisc())tui->mo(parameter);
+			else if(base == "tree" && parameter=="")tui->tree();
 			else cout << "Invalid command or parameter\n";
 		}
 	}

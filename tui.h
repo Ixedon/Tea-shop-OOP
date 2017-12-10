@@ -1,20 +1,23 @@
 
 class Tui
 {
+friend class Terminal;
 public:
 	void cd(string a) {current = mapa_nazw[a];};
 	void dir();
-	void mo();
-	void dob();
-	void mdo();
 	void tree();
+	void mo(string);
+	void dob(string);
+	void mdo(string);
+	void read(string);
+	void save(string);
 
 	void legenda()
 	{
 		for (int i = 0; i < wezel.size(); ++i)
 		{
 			cout <<wezel[i]->index<<" : "<<wezel[i]->getTyp()<<"     ";
-			std::vector<Herbata*> v;
+			vector<Herbata*> v;
 			v=wezel[i]->getNext();
 			for (int i = 0; i < v.size(); ++i)
 			{
@@ -43,7 +46,6 @@ public:
 
 		for (int i = 0; i < wezel.size(); ++i)
 		{
-			//auto k=wezel[i];
 			vector<Herbata*> temp;
 			temp = wezel[i]->getPrev();
 			for (int j = 0; j < temp.size(); ++j)
@@ -66,13 +68,13 @@ private:
 	Herbata* current;
 
 	map<string,Herbata*>mapa_nazw;
-	
+	void dfs(Herbata*,int);
 };
 
 
 void Tui::dir()
 {
-	cout << "dir: \n";
+	//cout << "dir: \n";
 	vector<Herbata*>szukane;  //szuakne wezly
 	vector<bool> od;
 
@@ -91,10 +93,10 @@ void Tui::dir()
 		v=k->getNext();
 		if(!od[k->index])
 		{
-			cout <<k->index<<" "<<k->getTyp()<<" "<<k->czyLisc()<<"     ";
+			//cout <<k->index<<" "<<k->getTyp()<<" "<<k->czyLisc()<<"     ";
 			for (int i = 0; i < v.size(); ++i)
 			{
-				cout << v[i]->index<<" ";
+				//cout << v[i]->index<<" ";
 				if(!od[ v[i]->index ])
 				{
 					q.push(v[i]);
@@ -105,13 +107,56 @@ void Tui::dir()
 			if(k->czyLisc())szukane.push_back(k);
 		}
 		q.pop();
-		cout << "\n";
+		//cout << "\n";
 	}
 
 	for (int i = 0; i < szukane.size(); ++i)
 	{
-		cout << szukane[i]->getTyp()<< ": \n";
+		cout << szukane[i]->getTyp()<< ": ";
+		vector<Herbata*> a = szukane[i]->obiekty;
+		if(a.size() == 0) cout << "Brak obiektow\n";
+		else
+		{
+			for (int j = 0; j < szukane[i]->obiekty.size(); ++j)
+			{
+				cout << szukane[i]->obiekty[j]<<" ";
+			}
+			cout << "\n";
+		}
 	}
 
 
+}
+
+void Tui::mo(string param)
+{
+	Herbata* h = create_object(current->getTyp());
+
+	current->obiekty.push_back(h);
+}
+
+void Tui::tree()
+{
+	Herbata *tmp=current;
+	dfs(current,0);
+	
+}
+
+void Tui::dfs(Herbata* a, int k)
+{
+	vector<Herbata*> v=a->getNext();
+	for (int i = 0; i <k ; ++i)cout << "   ";
+	cout << a->getTyp()<<": ";
+	if(a->czyLisc())
+	{
+		for (int i = 0; i < a->obiekty.size(); ++i)
+		{
+			cout << a->obiekty[i]<<" ";
+		}
+	}
+	cout << "\n";
+	for (int i = 0; i <v.size() ; ++i)
+	{
+		dfs(v[i],k+1);
+	}
 }
