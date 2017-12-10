@@ -1,6 +1,9 @@
 class Lisc
 {
 public:
-	static vector<Herbata*> obiekty;
+	vector<Herbata*> getObiekty() {return obiekty;}
+	void setObiekty(vector<Herbata*> a){obiekty=a;}
+private:
+	vector<Herbata*> obiekty;
 	
 };

@@ -13,6 +13,7 @@ class Herbata;
 #include "wezel.h"
 #include "struktura.h"
 #include "tui.h"
+#include "terminal.h"
 
 int main(int argc, char const *argv[])
 {
@@ -77,13 +78,17 @@ int main(int argc, char const *argv[])
 
 
 	tui.init(herbata);
-	tui.legenda();
-	tui.dir();
+	//tui.legenda();
+	//tui.dir();
+	Terminal terminal(tui);
+	terminal.run();
+
+
+	//string s;
+	//cin >> s;
+
 	
 
-
-	string s;
-	cin >> s;
 
 	return 0;
 }

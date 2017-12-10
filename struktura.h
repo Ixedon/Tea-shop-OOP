@@ -1,18 +1,19 @@
 class Herbata : public Wezel
 {
 public:
-	//virtual bool lisc () = 0;
-	//string getTyp() {return typ_herbaty;}
 	string getTyp() {string s= string(typeid(*this).name()); return s.substr(1,s.size()-1);}
 	
+	
 	virtual bool czyLisc(){return 0;}
-
+	
+	vector<Herbata*> obiekty;
 private:
 	int roczne_plony;
 
 
 protected:
-	 string typ_herbaty = "Herbata"; 
+	string name;
+
 };
 
 
@@ -20,7 +21,6 @@ class Zielona : public Herbata
 {
 public:
 protected:
-	 string typ_herbaty = "Zielona"; 	
 	
 };
 
@@ -28,15 +28,16 @@ class Biala : public Herbata, public Lisc
 {
 public:
 	bool czyLisc() {return 1;}
-protected:
-	 string typ_herbaty = "Biala"; 	
+	
+protected:	
+private:
+	
 };
 
 class Czarna : public Herbata
 {
 public:
 protected:
-	 string typ_herbaty = "Czarna"; 	
 };
 
 
@@ -44,21 +45,18 @@ class Chinska : virtual public Zielona
 {
 public:
 protected:
-	 string typ_herbaty = "Chinska"; 
 };
 
 class Japonska : virtual public Zielona
 {
 public:
 protected:
-	 string typ_herbaty = "Japonska"; 	
 };
 
 class Indyjska : public Czarna
 {
 public:
 protected:
-	 string typ_herbaty = "Indyjska"; 	
 };
 
 
@@ -67,24 +65,25 @@ class Ceylon : public Czarna, public Lisc
 public:
 	bool czyLisc() {return 1;}
 protected:
-	string typ_herbaty = "Ceylon"; 
+private:
+	
 };
 
 class Sencha : public Japonska, public Lisc
 {
 public:
 	bool czyLisc() {return 1;}
-protected:
-	string typ_herbaty = "Sencha"; 	
+protected:	
+private:
 };
 
 
-class Gunpowder : public Chinska, public Japonska,  public Lisc
+class Gunpowder : public Chinska, public Japonska, public Lisc
 {
 public:
 	bool czyLisc(){return 1;}
 protected:
-	string typ_herbaty = "Gunpowder"; 	
+private:
 };
 
 
@@ -93,7 +92,7 @@ class Longjing : public Chinska, public Lisc
 public:
 	bool czyLisc() {return 1;}
 protected:
-	string typ_herbaty = "Longjing"; 	
+private:
 };
 
 class Assam : public Indyjska, public Lisc
@@ -101,7 +100,7 @@ class Assam : public Indyjska, public Lisc
 public:
 	bool czyLisc() {return 1;}
 protected:
-	string typ_herbaty = "Assam"; 	
+private:
 };
 
 
@@ -110,5 +109,24 @@ class Nilgiri : public Indyjska, public Lisc
 public:
 	bool czyLisc() {return 1;}
 protected:
-	string typ_herbaty = "Nilgiri"; 	
+private:
 };
+
+Herbata* create_object(string a)
+{
+	Herbata* h;
+	if(a=="Herbata")h=new Herbata;
+	if(a=="Zielona")h=new Zielona;
+	if(a=="Czarna")h=new Czarna;
+	if(a=="Biala")h=new Biala;
+	if(a=="Chinska")h=new Chinska;
+	if(a=="Japonska")h=new Japonska;
+	if(a=="Indyjska")h=new Indyjska;
+	if(a=="Ceylon")h=new Ceylon;
+	if(a=="Sencha")h=new Sencha;
+	if(a=="Gunpowder")h=new Gunpowder;
+	if(a=="Assam")h=new Assam;
+	if(a=="Nilgiri")h=new Nilgiri;
+
+	return h;
+}
