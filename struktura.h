@@ -1,133 +1,114 @@
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-
-class Herbata
+class Herbata : public Wezel
 {
 public:
-	Herbata();
-	~Herbata();
-
-	void dir()
-	{
-
-	}
 	//virtual bool lisc () = 0;
+	//string getTyp() {return typ_herbaty;}
+	string getTyp() {string s= string(typeid(*this).name()); return s.substr(1,s.size()-1);}
+	
+	virtual bool czyLisc(){return 0;}
 
 private:
 	int roczne_plony;
-	static vector <Herbata*> obiekty;
 
 
 protected:
-	string typ_herbaty;
+	 string typ_herbaty = "Herbata"; 
 };
 
 
 class Zielona : public Herbata 
 {
 public:
-	Zielona();
-	~Zielona();
+protected:
+	 string typ_herbaty = "Zielona"; 	
 	
 };
 
-class Biala : public Herbata
+class Biala : public Herbata, public Lisc
 {
 public:
-	Biala();
-	~Biala();
-	
+	bool czyLisc() {return 1;}
+protected:
+	 string typ_herbaty = "Biala"; 	
 };
 
 class Czarna : public Herbata
 {
 public:
-	Czarna();
-	~Czarna();
-	
+protected:
+	 string typ_herbaty = "Czarna"; 	
 };
 
 
 class Chinska : virtual public Zielona
 {
 public:
-	Chinska();
-	~Chinska();
-	
+protected:
+	 string typ_herbaty = "Chinska"; 
 };
 
 class Japonska : virtual public Zielona
 {
 public:
-	Japonska();
-	~Japonska();
-	
+protected:
+	 string typ_herbaty = "Japonska"; 	
 };
 
 class Indyjska : public Czarna
 {
 public:
-	Indyjska();
-	~Indyjska();
-	
+protected:
+	 string typ_herbaty = "Indyjska"; 	
 };
 
 
-class Ceylon : public Czarna
+class Ceylon : public Czarna, public Lisc
 {
 public:
-	Ceylon();
-	~Ceylon();
-	
+	bool czyLisc() {return 1;}
+protected:
+	string typ_herbaty = "Ceylon"; 
 };
 
-class Sencha : public Chinska
+class Sencha : public Japonska, public Lisc
 {
 public:
-	Sencha();
-	~Sencha();
-	
+	bool czyLisc() {return 1;}
+protected:
+	string typ_herbaty = "Sencha"; 	
 };
 
 
-class Gunpowder : public Chinska, public Japonska
+class Gunpowder : public Chinska, public Japonska,  public Lisc
 {
 public:
-	Gunpowder();
-	~Gunpowder();
-	
+	bool czyLisc(){return 1;}
+protected:
+	string typ_herbaty = "Gunpowder"; 	
 };
 
 
-class Longjing : public Japonska
+class Longjing : public Chinska, public Lisc
 {
 public:
-	Longjing();
-	~Longjing();
-	
+	bool czyLisc() {return 1;}
+protected:
+	string typ_herbaty = "Longjing"; 	
 };
 
-class Assam : public Indyjska
+class Assam : public Indyjska, public Lisc
 {
 public:
-	Assam();
-	~Assam();
-	
+	bool czyLisc() {return 1;}
+protected:
+	string typ_herbaty = "Assam"; 	
 };
 
 
-class Nilgiri : public Indyjska
+class Nilgiri : public Indyjska, public Lisc
 {
 public:
-	Nilgiri();
-	~Nilgiri();
-	
+	bool czyLisc() {return 1;}
+protected:
+	string typ_herbaty = "Nilgiri"; 	
 };
-int main(int argc, char const *argv[])
-{
-	
-	return 0;
-}

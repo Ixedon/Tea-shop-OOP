@@ -1,14 +1,6 @@
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class lisc
+class Lisc
 {
 public:
-	lisc();
-	~lisc();
-
-	
+	static vector<Herbata*> obiekty;
 	
 };
