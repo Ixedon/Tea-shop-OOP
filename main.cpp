@@ -8,9 +8,10 @@
 using namespace std;
 
 class Herbata;
-
+class Tui;
 #include "lisc.h"
 #include "wezel.h"
+#include "element.h"
 #include "struktura.h"
 #include "tui.h"
 #include "terminal.h"
@@ -84,9 +85,10 @@ int main(int argc, char const *argv[])
 	terminal.run();
 
 
-	//string s;
+	string s;
 	//cin >> s;
 
+	Element k(string("jff"));
 	
 
 

@@ -119,7 +119,7 @@ void Tui::dir()
 		{
 			for (int j = 0; j < szukane[i]->obiekty.size(); ++j)
 			{
-				cout << szukane[i]->obiekty[j]<<" ";
+				cout << szukane[i]->obiekty[j]->name<<" ";
 			}
 			cout << "\n";
 		}
@@ -131,6 +131,7 @@ void Tui::dir()
 void Tui::mo(string param)
 {
 	Herbata* h = create_object(current->getTyp());
+	h->name=param;
 
 	current->obiekty.push_back(h);
 }
@@ -151,7 +152,7 @@ void Tui::dfs(Herbata* a, int k)
 	{
 		for (int i = 0; i < a->obiekty.size(); ++i)
 		{
-			cout << a->obiekty[i]<<" ";
+			cout << a->obiekty[i]->name<<" ";
 		}
 	}
 	cout << "\n";
