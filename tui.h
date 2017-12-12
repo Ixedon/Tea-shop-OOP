@@ -4,14 +4,14 @@ class Tui
 friend class Terminal;
 public:
 	void cd(string a) {current = mapa_nazw[a];};
-	void dir();
+	void dir(bool);
 	void tree();
 	void mo(string);
-	void dob(string);
+	void dob(string,bool);
 	void mdo(string);
 	void show(string,bool);
-	void read(string);
-	void save(string);
+	void read();
+	void save();
 
 	void legenda()
 	{
@@ -66,6 +66,7 @@ private:
 	vector<Herbata*> galazie;
 	vector<Herbata*> liscie;
 	vector<Herbata*> wezel;
+	vector<Herbata*> znalezione;
 	Herbata* current;
 
 	map<string,Herbata*>mapa_nazw;
@@ -74,10 +75,11 @@ private:
 };
 
 
-void Tui::dir()
+void Tui::dir(bool b)
 {
 	//cout << "dir: \n";
 	vector<Herbata*>szukane;  //szuakne wezly
+	znalezione.clear();
 	vector<bool> od;
 
 	for (int i = 0; i < wezel.size(); ++i)
@@ -95,10 +97,8 @@ void Tui::dir()
 		v=k->getNext();
 		if(!od[k->index])
 		{
-			//cout <<k->index<<" "<<k->getTyp()<<" "<<k->czyLisc()<<"     ";
 			for (int i = 0; i < v.size(); ++i)
 			{
-				//cout << v[i]->index<<" ";
 				if(!od[ v[i]->index ])
 				{
 					q.push(v[i]);
@@ -107,10 +107,11 @@ void Tui::dir()
 
 			od[k->index] = 1;
 			if(k->czyLisc())szukane.push_back(k);
+			if(b && k->czyLisc())znalezione.push_back(k);
 		}
 		q.pop();
-		//cout << "\n";
 	}
+	if(b)return;
 
 	for (int i = 0; i < szukane.size(); ++i)
 	{
@@ -126,8 +127,6 @@ void Tui::dir()
 			cout << "\n";
 		}
 	}
-
-
 }
 
 bool Tui::istnieje(string param)
@@ -152,30 +151,38 @@ void Tui::mo(string param)
 		{
 			cout << v[i]->nazwa<<" : ";
 			cin >> s;
+			//getline(cin,s);
 			v[i]->wartosc_s = s;
 		}
 		else 
 		{
 			cout << v[i]->nazwa <<" (w "<<v[i]->jednostka<<") : ";
-			cin >> f;
+			cin >> s;
+			f = atof(s.c_str());
 			v[i]->wartosc_f = f;
 		}
 	}
 	getline(cin,s);
-	
 	h->setElementy(v);	
 
 	current->obiekty.push_back(h);
 	current->mapa_obiektow[param]=current->obiekty.size() - 1;
 }
 
-void Tui::dob(string param)
+void Tui::dob(string param, bool b)
 {
-	if(!istnieje(param)){cout << "No such object\n";return;}
+	if(!istnieje(param)){if(b)cout << "No such object\n";return;}
 	map<string,int>::iterator it;
 	it = current->mapa_obiektow.find(param);
 	current->obiekty.erase(current->obiekty.begin() + it->second);
 	current->mapa_obiektow.erase (it);
+
+	vector<Herbata*>v=current->obiekty;
+
+	for (int i = 0; i < v.size(); ++i)
+	{
+		current->mapa_obiektow[v[i]->name]=i;
+	}
 }
 
 
@@ -243,7 +250,8 @@ void Tui::mdo(string param)
 	if(v[k]->typ)
 	{
 		cout << v[k]->nazwa<<" : ";
-		cin >> s;
+		getline(cin,s);
+		//cin >> s;
 		v[k]->wartosc_s = s;
 	}
 	else 
@@ -251,21 +259,90 @@ void Tui::mdo(string param)
 		cout << v[k]->nazwa <<" (w "<<v[k]->jednostka<<") : ";
 		cin >> f;
 		v[k]->wartosc_f = f;
+
 	}
 	getline(cin,s);
-	
 	current->obiekty[ current->mapa_obiektow [param] ]->setElementy(v);	
 }
 
 
-// void Tui::write(string path)
-// {
-// 	ofstream o;
-// 	o.open(path);
-// }
+void Tui::save()
+{
+	ofstream o;
+	o.open(current->getTyp()+".txt");
+	o<<current->getTyp()<<"\n";   //dodanie identyfiaktora wezla dla pliku
+	string s;
+	dir(1); //zapisanie wszystkich podwierzcholkow do vektora znalezione
+
+	for (int k = 0; k < znalezione.size(); ++k)
+	{
+		o<<znalezione[k]->getTyp()<<" "<<znalezione[k]->obiekty.size()<<"     "; 
+		for (int j = 0; j < znalezione[k]->obiekty.size(); ++j)
+		{
+			o <<"\n"<<znalezione[k]->obiekty[j]->name<<"   ";
+			vector<Element*>v = znalezione[k]->obiekty[j]->getElementy();
+			for (int i = 0; i < v.size(); ++i)
+			{
+				if(v[i]->typ)
+				{
+					s=v[i]->wartosc_s;
+					for(int q=0;q<s.size();q++){if(s[i]==' ')s[i]='@';}
+					o  <<"string "<<s<<"  ";
+				}
+				else 
+				{
+					o  <<"float "<<v[i]->wartosc_f <<" "<<v[i]->jednostka<<"  ";
+				}
+			}	
+		}
+		o << "\n";
+	}
+	o.close();
+}
 
 
-// void Tui::read(string path)
-// {
+void Tui::read()
+{
+	ifstream ifs;
+	ifs.open(current->getTyp()+".txt");
 
-// }
+	string nazwa_klasy,nazwa_obiektu,typ_elementu,korzen;
+	//vector<Herbata*>o;
+	vector<Element*>v;
+	Element *ele;
+	Herbata *h,*klasa;
+	int il_obiektow;
+	dir(1); //zapisanie wszystkich podwierzcholkow do vektora znalezione
+
+	ifs >> korzen;
+	for(int q = 0; q<znalezione.size();q++)
+	{
+		ifs >> nazwa_klasy >> il_obiektow;  //wczytanie ilosci obiektow sanej klasy
+		klasa = mapa_nazw[nazwa_klasy];
+		for (int i = 0; i < il_obiektow; ++i)
+		{
+			ifs >> nazwa_obiektu;      //wczytanie nazwy obiektu
+			h = create_object(nazwa_klasy);
+			h->name = nazwa_obiektu;
+			v = h->getElementy();
+			for (int j = 0; j < v.size(); ++j)
+			{
+				ifs >> typ_elementu;
+				if(typ_elementu == "float") {ifs >> v[j]->wartosc_f >> v[j]->jednostka; v[j]->typ = 0; }
+				else {ifs >> v[j]->wartosc_s; v[j]->typ=1;}
+			}
+			h->setElementy(v);
+			current = mapa_nazw[h->getTyp()];
+			dob(h->name,0);
+			klasa->obiekty.push_back(h);
+			klasa->mapa_obiektow[h->name]=klasa->obiekty.size() - 1;
+			
+		}
+
+
+
+	}
+	current = mapa_nazw[korzen];
+
+
+}

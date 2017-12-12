@@ -25,15 +25,17 @@ public:
 				}
 			}
 			//cout << command <<" : "<<base<<" : "<<parameter<<"\n";
-			if(base == "dir" && parameter == "")tui->dir();
+			if(base == "dir" && parameter == "")tui->dir(0);
 			else if(base == "exit" && parameter == "")exit=1;
 			else if(base == "cd" && tui->mapa_nazw.find(parameter) != tui->mapa_nazw.end() ) 
 				tui->current = tui->mapa_nazw[parameter];
 			else if(base == "mo" && parameter!=""&& tui->current->czyLisc())tui->mo(parameter);
 			else if(base == "tree" && parameter=="")tui->tree();
-			else if(base == "do" && parameter!="")tui->dob(parameter);
+			else if(base == "do" && parameter!="")tui->dob(parameter,1);
 			else if(base == "show" && parameter!="")tui->show(parameter,0);
 			else if(base == "mdo" && parameter!="")tui->mdo(parameter);
+			else if(base == "save" && parameter=="")tui->save();
+			else if(base == "read" && parameter=="")tui->read();
 			else cout << "Invalid command or parameter\n";
 		}
 	}

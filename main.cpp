@@ -6,6 +6,7 @@
 #include <typeinfo>
 #include <string>
 #include <fstream>
+#include <stdlib.h> 
 
 using namespace std;
 
@@ -79,18 +80,8 @@ int main(int argc, char const *argv[])
 
 
 	tui.init(herbata);
-	//tui.legenda();
-	//tui.dir();
 	Terminal terminal(tui);
 	terminal.run();
-
-
-	string s;
-	//cin >> s;
-
-	Element k(string("jff"));
-	
-
 
 	return 0;
 }
