@@ -9,6 +9,7 @@ public:
 	void mo(string);
 	void dob(string);
 	void mdo(string);
+	void show(string);
 	void read(string);
 	void save(string);
 
@@ -69,6 +70,7 @@ private:
 
 	map<string,Herbata*>mapa_nazw;
 	void dfs(Herbata*,int);
+	bool istnieje(string);
 };
 
 
@@ -128,12 +130,69 @@ void Tui::dir()
 
 }
 
+bool Tui::istnieje(string param)
+{
+	map<string,int>::iterator it;
+	it = current->mapa_obiektow.find(param);
+  	return (it != current->mapa_obiektow.end());
+}
+
 void Tui::mo(string param)
 {
+	if(istnieje(param)){cout << "Object already exists\n";return;}
+
 	Herbata* h = create_object(current->getTyp());
 	h->name=param;
+	string s;
+	float f;
+	vector<Element*> v = h->getElementy();
+	for (int i = 0; i < v.size(); ++i)
+	{
+		if(v[i]->typ)
+		{
+			cout << v[i]->nazwa<<" : ";
+			cin >> s;
+			v[i]->wartosc_s = s;
+		}
+		else 
+		{
+			cout << v[i]->nazwa <<" (w "<<v[i]->jednostka<<") : ";
+			cin >> f;
+			v[i]->wartosc_f = f;
+		}
+	}
+	getline(cin,s);
+	
+	h->setElementy(v);	
 
 	current->obiekty.push_back(h);
+	current->mapa_obiektow[param]=current->obiekty.size() - 1;
+}
+
+void Tui::dob(string param)
+{
+	if(!istnieje(param)){cout << "No such object\n";return;}
+	map<string,int>::iterator it;
+	it = current->mapa_obiektow.find(param);
+	current->obiekty.erase(current->obiekty.begin() + it->second);
+	current->mapa_obiektow.erase (it);
+}
+
+
+void Tui::show(string param)
+{
+	vector<Element*>v = current->obiekty[ current->mapa_obiektow [param] ]->getElementy();
+	for (int i = 0; i < v.size(); ++i)
+	{
+		if(v[i]->typ)
+		{
+			cout << v[i]->nazwa<<" : "<< v[i]->wartosc_s<<"\n";
+		}
+		else 
+		{
+			cout << v[i]->nazwa << ") : "<< v[i]->wartosc_f<<"[ "<<v[i]->jednostka<<" ]\n";
+		}
+	}
 }
 
 void Tui::tree()

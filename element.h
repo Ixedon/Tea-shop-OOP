@@ -8,5 +8,6 @@ public:
 	bool typ;
 
 	float wartosc_f;
+	string wartosc_s;
 
 };

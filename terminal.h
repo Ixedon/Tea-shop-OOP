@@ -31,6 +31,7 @@ public:
 				tui->current = tui->mapa_nazw[parameter];
 			else if(base == "mo" && parameter!=""&& tui->current->czyLisc())tui->mo(parameter);
 			else if(base == "tree" && parameter=="")tui->tree();
+			else if(base == "do" && parameter!="")tui->dob(parameter);
 			else cout << "Invalid command or parameter\n";
 		}
 	}

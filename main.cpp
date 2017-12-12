@@ -19,8 +19,6 @@ class Tui;
 int main(int argc, char const *argv[])
 {
 
-	// virtual vector<Herbata*> Obiekt::prev;
-	// virtual vector<Herbata*> Obiekt::next;
 
 	Tui tui;
 

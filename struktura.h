@@ -2,11 +2,12 @@ class Herbata : public Wezel
 {
 public:
 	string getTyp() {string s= string(typeid(*this).name()); return s.substr(1,s.size()-1);}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	virtual void setElementy(vector<Element*> a){elementy=a;}
+	virtual vector<Element*> getElementy(){return elementy;}
 	virtual bool czyLisc(){return 0;}
 	
 	vector<Herbata*> obiekty;
+	map<string,int> mapa_obiektow;
 	Herbata(){roczne_plony= new Element("Roczne plony","kg");elementy.push_back(roczne_plony);}
 	string name;
 
@@ -36,6 +37,8 @@ class Biala : public Herbata, public Lisc
 {
 public:
 	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Biala(){smak = new Element( "Smak (jaki owoc)" );
 	elementy.push_back(roczne_plony);elementy.push_back(smak);}
 protected:
@@ -95,6 +98,8 @@ class Ceylon : public Czarna, public Lisc
 
 public:
 	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Ceylon(){data_zerwania = new Element("Data zerwania");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(data_zerwania);}
 protected:
@@ -109,6 +114,8 @@ class Sencha : public Japonska, public Lisc
 
 public:
 	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Sencha(){opiekun = new Element("Opiekun plantacji");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);elementy.push_back(czas_dojrzewania);elementy.push_back(opiekun);}
 protected:
@@ -123,6 +130,8 @@ class Gunpowder : public Chinska, public Japonska, public Lisc
 
 public:
 	bool czyLisc(){return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Gunpowder(){moc_wybuchu = new Element("Moc wybuchu","Mt");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);
 	elementy.push_back(czas_dojrzewania);elementy.push_back(region);elementy.push_back(moc_wybuchu);}
@@ -138,6 +147,8 @@ class Longjing : public Chinska, public Lisc
 
 public:
 	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Longjing(){ksztalt = new Element("Ksztalt lisci");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);elementy.push_back(region);elementy.push_back(ksztalt);}
 protected:
@@ -151,6 +162,8 @@ class Assam : public Indyjska, public Lisc
 
 public:
 	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Assam(){godzina_zerwania = new Element("Godzina zerwania");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(miesiac);elementy.push_back(godzina_zerwania);}
 protected:
@@ -165,6 +178,8 @@ class Nilgiri : public Indyjska, public Lisc
 
 public:
 	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Nilgiri(){dlugosc_lisci = new Element("Dlugosc lisci", "cm");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(miesiac);elementy.push_back(dlugosc_lisci);}
 protected:
