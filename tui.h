@@ -9,7 +9,7 @@ public:
 	void mo(string);
 	void dob(string);
 	void mdo(string);
-	void show(string);
+	void show(string,bool);
 	void read(string);
 	void save(string);
 
@@ -179,18 +179,21 @@ void Tui::dob(string param)
 }
 
 
-void Tui::show(string param)
+void Tui::show(string param,bool b)
 {
+	if(!istnieje(param)){cout << "No such object\n";return;}
 	vector<Element*>v = current->obiekty[ current->mapa_obiektow [param] ]->getElementy();
 	for (int i = 0; i < v.size(); ++i)
 	{
 		if(v[i]->typ)
 		{
+			if(b)cout << i<<" : ";
 			cout << v[i]->nazwa<<" : "<< v[i]->wartosc_s<<"\n";
 		}
 		else 
 		{
-			cout << v[i]->nazwa << ") : "<< v[i]->wartosc_f<<"[ "<<v[i]->jednostka<<" ]\n";
+			if(b)cout << i<<" : ";
+			cout << v[i]->nazwa << " : "<< v[i]->wartosc_f<<" [ "<<v[i]->jednostka<<" ]\n";
 		}
 	}
 }
@@ -220,3 +223,49 @@ void Tui::dfs(Herbata* a, int k)
 		dfs(v[i],k+1);
 	}
 }
+
+void Tui::mdo(string param)
+{
+	string s;
+	int k;
+	show(param,1);
+	if(!istnieje(param))return;
+
+	float f;
+	vector<Element*>v = current->obiekty[ current->mapa_obiektow [param] ]->getElementy();
+
+	cout << "Modify which attribute? (Select index) >> ";
+	cin >> k;
+	if(k<0 || k>v.size()-1){cout << "No such attribute\n";getline(cin,s);return;}
+	cout << "Enter new value : ";
+
+	
+	if(v[k]->typ)
+	{
+		cout << v[k]->nazwa<<" : ";
+		cin >> s;
+		v[k]->wartosc_s = s;
+	}
+	else 
+	{
+		cout << v[k]->nazwa <<" (w "<<v[k]->jednostka<<") : ";
+		cin >> f;
+		v[k]->wartosc_f = f;
+	}
+	getline(cin,s);
+	
+	current->obiekty[ current->mapa_obiektow [param] ]->setElementy(v);	
+}
+
+
+// void Tui::write(string path)
+// {
+// 	ofstream o;
+// 	o.open(path);
+// }
+
+
+// void Tui::read(string path)
+// {
+
+// }

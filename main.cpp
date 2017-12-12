@@ -5,6 +5,8 @@
 #include <stack>
 #include <typeinfo>
 #include <string>
+#include <fstream>
+
 using namespace std;
 
 class Herbata;
