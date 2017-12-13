@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Herbata;
+class Herbata;  //przednia definicja kass i funkcji
 class Tui;
 void execute();
 #include "lisc.h"
@@ -22,7 +22,7 @@ void execute();
 
 int main(int argc, char const *argv[])
 {
-	execute();
+	execute();  //odpalenie programu
 	return 0;
 }
 
@@ -34,59 +34,59 @@ void execute()  //realizuje program
 
 	Herbata herbata;    //tworzenie obiektow to ustanowienie struktury
 	herbata.setprev(nullptr);   //ustawienie poprzednika
-	tui.feedgalaz(herbata);  // dodanie do wektora w celu itercji
+	tui.feed(herbata);  // dodanie do wektora w celu itercji
 
 	Zielona zielona;
 	zielona.setprev(herbata);
-	tui.feedgalaz(zielona);
+	tui.feed(zielona);
 
 	Czarna czarna;
 	czarna.setprev(herbata);
-	tui.feedgalaz(czarna);
+	tui.feed(czarna);
 
 	Biala biala;
 	biala.setprev(herbata);
-	tui.feedgalaz(biala);
+	tui.feed(biala);
 
 
 	Chinska chinska;
 	chinska.setprev(zielona);
-	tui.feedgalaz(chinska);
+	tui.feed(chinska);
 
 	Japonska japonska;
 	japonska.setprev(zielona);
-	tui.feedgalaz(japonska);
+	tui.feed(japonska);
 
 	Indyjska indyjska;
 	indyjska.setprev(czarna);
-	tui.feedgalaz(indyjska);
+	tui.feed(indyjska);
 
 	Ceylon ceylon;
 	ceylon.setprev(czarna);
-	tui.feedlisc(ceylon);
+	tui.feed(ceylon);
 
 	Sencha sencha;
 	sencha.setprev(japonska);
-	tui.feedlisc(sencha);
+	tui.feed(sencha);
 
 	Gunpowder gunpowder;
 	gunpowder.setprev(japonska,chinska);
-	tui.feedlisc(gunpowder);
+	tui.feed(gunpowder);
 
 	Longjing longjing;
 	longjing.setprev(chinska);
-	tui.feedlisc(longjing);
+	tui.feed(longjing);
 
 	Assam assam;
 	assam.setprev(indyjska);
-	tui.feedlisc(assam);
+	tui.feed(assam);
 
 	Nilgiri nilgiri;
 	nilgiri.setprev(indyjska);
-	tui.feedlisc(nilgiri);
+	tui.feed(nilgiri);
 
 
 	tui.init(herbata);   //inicjalizacja
 	Terminal terminal(tui);   //stworzenei terminala do tekstowego ui
-	terminal.run();
+	terminal.run();  //odpalenie terminala
 }

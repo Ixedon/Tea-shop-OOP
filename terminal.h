@@ -2,21 +2,21 @@ class Terminal
 {
 friend void execute();
 public:
-	Terminal(Tui &a){tui=&a;};
+	Terminal(Tui &a){tui=&a;};  //pobranie interfejsu
 protected:
 	void run()
 	{
 		string command,parameter,base;
 		bool exit =0;
-		while(!exit)
+		while(!exit)  //petla glowna
 		{
-			cout << tui->getTyp()<<"> ";
+			cout << tui->getTyp()<<"> ";  //promt
 			getline(cin, command);
 			int k=-1;
 			base = parameter = "";
 			for (int i = 0; i < command.size(); ++i)
 			{
-				if(command[i]==' ') { k=i; continue;}
+				if(command[i]==' ') { k=i; continue;}  //szukanie spacji miedzy komenda a parametrem
 				if(k<0)
 				{
 					base+=command[i];
@@ -26,8 +26,7 @@ protected:
 					parameter+=command[i];
 				}
 			}
-			//cout << command <<" : "<<base<<" : "<<parameter<<"\n";
-			if(base == "dir" && parameter == "")tui->dir(0);
+			if(base == "dir" && parameter == "")tui->dir(0);   //odpalenie komend
 			else if(base == "exit" && parameter == "")exit=1;
 			else if(base == "cd" && tui->mapa_nazw.find(parameter) != tui->mapa_nazw.end() ) 
 				tui->current = tui->mapa_nazw[parameter];
@@ -42,5 +41,5 @@ protected:
 		}
 	}
 private:
-	Tui* tui;
+	Tui* tui;  //wskazni na tekstowy ui
 };

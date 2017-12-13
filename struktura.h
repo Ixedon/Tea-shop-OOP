@@ -1,25 +1,26 @@
-class Herbata : public Wezel
+class Herbata : public Wezel  //dziedziczenie ogolnej klasy
 {
-friend void execute();
+friend void execute(); //zapewnienie dostepu wybranym funkcjom i klasom
 friend Herbata* create_object(string);
 friend class Tui;
 public:
 	
-	Herbata(){roczne_plony= new Element("Roczne plony","kg");elementy.push_back(roczne_plony);}
-	
+	Herbata(){roczne_plony= new Element("Roczne plony","kg");elementy.push_back(roczne_plony);}  //dodanie atrybutow do vectora wraz z human friendly nazwa
+	virtual ~Herbata(){for (int i = 0; i < obiekty.size(); ++i)delete obiekty[i];
+					   for (int i = 0; i < elementy.size(); ++i)delete elementy[i];}  //usuwanie atrubutow przy usuwaniu obiektu
 protected:
-	string getTyp() {string s= string(typeid(*this).name()); return s.substr(1,s.size()-1);}
-	virtual void setElementy(vector<Element*> a){elementy=a;}
+	string getTyp() {string s= string(typeid(*this).name()); return s.substr(1,s.size()-1);}  //zwraca nazwe klasy
+	virtual void setElementy(vector<Element*> a){elementy=a;} 
 	virtual vector<Element*> getElementy(){return elementy;}
-	virtual bool czyLisc(){return 0;}
+	virtual bool czyLisc(){return 0;}   //sprawdza czy jest lisciem
 	
-	vector<Herbata*> obiekty;
-	map<string,int> mapa_obiektow;
-	Element *roczne_plony;
+	vector<Herbata*> obiekty;   //vector elementow (przechowuje elementy tylko dla reprezentanat lisci)
+	map<string,int> mapa_obiektow;  //mapa dla szybszego odwolywania
+
+	Element *roczne_plony;  //element wlasny klasy
 private:
-	//Element* waga("Waga porcji","g");
-	vector<Element*>elementy;
-	string name;
+	vector<Element*>elementy;  //vector atrybutow w celu iteracji po atrybutach
+	string name;   //nazwa obiektu
 
 };
 
@@ -30,7 +31,7 @@ friend void execute();
 friend Herbata* create_object(string);
 friend class Tui;
 public:
-	Zielona(){czas_parzenia = new Element("Czas parzenia","min");
+	Zielona(){czas_parzenia = new Element("Czas parzenia","min");   //okreslenie przedrostka i jednostki
 elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);}
 protected:
 	Element *czas_parzenia;
@@ -47,7 +48,7 @@ friend Herbata* create_object(string);
 friend class Tui;
 public:
 	
-	Biala(){smak = new Element( "Smak (jaki owoc)" );
+	Biala(){smak = new Element( "Smak (jaki owoc)" );  //bez jednostki
 	elementy.push_back(roczne_plony);elementy.push_back(smak);}
 protected:
 	bool czyLisc() {return 1;}
@@ -73,7 +74,7 @@ private:
 };
 
 
-class Chinska : virtual protected Zielona
+class Chinska : virtual protected Zielona  //wirtualne dziedziczenie zeby nie bylo duplikatow pol
 {
 friend void execute();
 friend Herbata* create_object(string);
@@ -87,7 +88,7 @@ private:
 	vector<Element*>elementy;
 };
 
-class Japonska : virtual protected Zielona
+class Japonska : virtual protected Zielona  //wirtualne dziedziczenie zeby nie bylo duplikatow pol
 {
 friend void execute();
 friend Herbata* create_object(string);
@@ -229,7 +230,7 @@ private:
 	vector<Element*>elementy;
 };
 
-Herbata* create_object(string a)
+Herbata* create_object(string a)  //tworzenie obiektu na podstawie stringa
 {
 	Herbata* h;
 	if(a=="Herbata")h=new Herbata;
