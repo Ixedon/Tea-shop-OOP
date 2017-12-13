@@ -1,14 +1,16 @@
 class Terminal
 {
+friend void execute();
 public:
 	Terminal(Tui &a){tui=&a;};
+protected:
 	void run()
 	{
 		string command,parameter,base;
 		bool exit =0;
 		while(!exit)
 		{
-			cout << tui->current->getTyp()<<"> ";
+			cout << tui->getTyp()<<"> ";
 			getline(cin, command);
 			int k=-1;
 			base = parameter = "";
@@ -29,7 +31,7 @@ public:
 			else if(base == "exit" && parameter == "")exit=1;
 			else if(base == "cd" && tui->mapa_nazw.find(parameter) != tui->mapa_nazw.end() ) 
 				tui->current = tui->mapa_nazw[parameter];
-			else if(base == "mo" && parameter!=""&& tui->current->czyLisc())tui->mo(parameter);
+			else if(base == "mo" && parameter!=""&& tui->czyLisc())tui->mo(parameter);
 			else if(base == "tree" && parameter=="")tui->tree();
 			else if(base == "do" && parameter!="")tui->dob(parameter,1);
 			else if(base == "show" && parameter!="")tui->show(parameter,0);

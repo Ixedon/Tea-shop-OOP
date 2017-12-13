@@ -2,7 +2,8 @@
 class Tui
 {
 friend class Terminal;
-public:
+friend void execute();
+protected:
 	void cd(string a) {current = mapa_nazw[a];};
 	void dir(bool);
 	void tree();
@@ -12,21 +13,6 @@ public:
 	void show(string,bool);
 	void read();
 	void save();
-
-	void legenda()
-	{
-		for (int i = 0; i < wezel.size(); ++i)
-		{
-			cout <<wezel[i]->index<<" : "<<wezel[i]->getTyp()<<"     ";
-			vector<Herbata*> v;
-			v=wezel[i]->getNext();
-			for (int i = 0; i < v.size(); ++i)
-			{
-				cout <<v[i]->index<<" ";
-			}
-			cout << "\n";
-		}
-	}
 
 	void feedgalaz(Herbata& a)
 	{
@@ -61,6 +47,8 @@ public:
 		}
 
 	}
+	bool czyLisc(){return current->czyLisc();}
+	string getTyp(){return current->getTyp();}
 
 private:
 	vector<Herbata*> galazie;

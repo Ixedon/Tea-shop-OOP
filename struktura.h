@@ -1,6 +1,13 @@
 class Herbata : public Wezel
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
+	
+	Herbata(){roczne_plony= new Element("Roczne plony","kg");elementy.push_back(roczne_plony);}
+	
+protected:
 	string getTyp() {string s= string(typeid(*this).name()); return s.substr(1,s.size()-1);}
 	virtual void setElementy(vector<Element*> a){elementy=a;}
 	virtual vector<Element*> getElementy(){return elementy;}
@@ -8,20 +15,20 @@ public:
 	
 	vector<Herbata*> obiekty;
 	map<string,int> mapa_obiektow;
-	Herbata(){roczne_plony= new Element("Roczne plony","kg");elementy.push_back(roczne_plony);}
-	string name;
-
-protected:
 	Element *roczne_plony;
 private:
 	//Element* waga("Waga porcji","g");
 	vector<Element*>elementy;
+	string name;
 
 };
 
 
-class Zielona : public Herbata 
+class Zielona : protected Herbata 
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
 	Zielona(){czas_parzenia = new Element("Czas parzenia","min");
 elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);}
@@ -33,22 +40,29 @@ private:
 	
 };
 
-class Biala : public Herbata, public Lisc
+class Biala : protected Herbata
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc() {return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Biala(){smak = new Element( "Smak (jaki owoc)" );
 	elementy.push_back(roczne_plony);elementy.push_back(smak);}
 protected:
+	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *smak;
 private:
 	vector<Element*>elementy;
 };
 
-class Czarna : public Herbata
+class Czarna : protected Herbata
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
 	Czarna(){moc_parzenia = new Element("Moc zaparzonej herbaty","0-10");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);}
@@ -59,8 +73,11 @@ private:
 };
 
 
-class Chinska : virtual public Zielona
+class Chinska : virtual protected Zielona
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
 	Chinska(){region = new Element("Region pochodzenia");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);elementy.push_back(region);}
@@ -70,8 +87,11 @@ private:
 	vector<Element*>elementy;
 };
 
-class Japonska : virtual public Zielona
+class Japonska : virtual protected Zielona
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
 	Japonska(){czas_dojrzewania = new Element("Czas dojrzewania","mce");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);elementy.push_back(czas_dojrzewania);}
@@ -81,8 +101,11 @@ private:
 	vector<Element*>elementy;
 };
 
-class Indyjska : public Czarna
+class Indyjska : protected Czarna
 {
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
 	Indyjska(){miesiac = new Element("Miesiac zbiorow");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(miesiac);}
@@ -93,96 +116,114 @@ private:
 };
 
 
-class Ceylon : public Czarna, public Lisc
+class Ceylon : protected Czarna
 {
-
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc() {return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Ceylon(){data_zerwania = new Element("Data zerwania");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(data_zerwania);}
 protected:
+	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *data_zerwania;
 private:
 	
 	vector<Element*>elementy;
 };
 
-class Sencha : public Japonska, public Lisc
+class Sencha : protected Japonska
 {
-
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc() {return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Sencha(){opiekun = new Element("Opiekun plantacji");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);elementy.push_back(czas_dojrzewania);elementy.push_back(opiekun);}
 protected:
+	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *opiekun;
 private:
 	vector<Element*>elementy;
 };
 
 
-class Gunpowder : public Chinska, public Japonska, public Lisc
+class Gunpowder : protected Chinska, protected Japonska
 {
-
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc(){return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Gunpowder(){moc_wybuchu = new Element("Moc wybuchu","Mt");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);
 	elementy.push_back(czas_dojrzewania);elementy.push_back(region);elementy.push_back(moc_wybuchu);}
 protected:
+	bool czyLisc(){return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *moc_wybuchu ;
 private:
 	vector<Element*>elementy;
 };
 
 
-class Longjing : public Chinska, public Lisc
+class Longjing : protected Chinska
 {
-
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc() {return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Longjing(){ksztalt = new Element("Ksztalt lisci");
 	elementy.push_back(roczne_plony);elementy.push_back(czas_parzenia);elementy.push_back(region);elementy.push_back(ksztalt);}
 protected:
+	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *ksztalt;
 private:
 	vector<Element*>elementy;
 };
 
-class Assam : public Indyjska, public Lisc
+class Assam : protected Indyjska
 {
-
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc() {return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Assam(){godzina_zerwania = new Element("Godzina zerwania");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(miesiac);elementy.push_back(godzina_zerwania);}
 protected:
+	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *godzina_zerwania;
 private:
 	vector<Element*>elementy;
 };
 
 
-class Nilgiri : public Indyjska, public Lisc
+class Nilgiri : protected Indyjska
 {
-
+friend void execute();
+friend Herbata* create_object(string);
+friend class Tui;
 public:
-	bool czyLisc() {return 1;}
-	vector<Element*> getElementy(){return elementy;}
-	void setElementy(vector<Element*> a){elementy=a;}
+	
 	Nilgiri(){dlugosc_lisci = new Element("Dlugosc lisci", "cm");
 	elementy.push_back(roczne_plony);elementy.push_back(moc_parzenia);elementy.push_back(miesiac);elementy.push_back(dlugosc_lisci);}
 protected:
+	bool czyLisc() {return 1;}
+	vector<Element*> getElementy(){return elementy;}
+	void setElementy(vector<Element*> a){elementy=a;}
 	Element *dlugosc_lisci;
 private:
 	vector<Element*>elementy;

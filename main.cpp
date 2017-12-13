@@ -12,6 +12,7 @@ using namespace std;
 
 class Herbata;
 class Tui;
+void execute();
 #include "lisc.h"
 #include "wezel.h"
 #include "element.h"
@@ -21,13 +22,19 @@ class Tui;
 
 int main(int argc, char const *argv[])
 {
+	execute();
+	return 0;
+}
 
 
+
+void execute()  //realizuje program
+{
 	Tui tui;
 
-	Herbata herbata;
-	herbata.setprev(nullptr);
-	tui.feedgalaz(herbata);
+	Herbata herbata;    //tworzenie obiektow to ustanowienie struktury
+	herbata.setprev(nullptr);   //ustawienie poprzednika
+	tui.feedgalaz(herbata);  // dodanie do wektora w celu itercji
 
 	Zielona zielona;
 	zielona.setprev(herbata);
@@ -79,9 +86,7 @@ int main(int argc, char const *argv[])
 	tui.feedlisc(nilgiri);
 
 
-	tui.init(herbata);
-	Terminal terminal(tui);
+	tui.init(herbata);   //inicjalizacja
+	Terminal terminal(tui);   //stworzenei terminala do tekstowego ui
 	terminal.run();
-
-	return 0;
 }
